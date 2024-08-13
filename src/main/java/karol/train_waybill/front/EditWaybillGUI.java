@@ -3,6 +3,9 @@ package karol.train_waybill.front;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -14,9 +17,12 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 
+import karol.train_waybill.UserDetails.CompanyDetails;
+import karol.train_waybill.database.Company;
 import karol.train_waybill.database.TrainCar;
 import karol.train_waybill.database.TrainStation;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainCarRepository;
 import karol.train_waybill.repository.TrainStationRepository;
 import karol.train_waybill.repository.WaybillRepository;
@@ -41,6 +47,9 @@ public class EditWaybillGUI extends VerticalLayout implements BeforeEnterObserve
 	
 	@Autowired
 	WaybillRepository waybillRepo;
+	
+	@Autowired
+	private CompanyRepository companyRepo;
 	
 	public EditWaybillGUI()
 	{
@@ -107,7 +116,24 @@ public class EditWaybillGUI extends VerticalLayout implements BeforeEnterObserve
 		    waybillID = 0;
 	    }
 		
-	    Waybill waybill = waybillRepo.findById(waybillID).orElse(null);
+		Waybill waybill = null;
+		
+		if(getCompanyEmail().length() > 0)
+		{
+			Company company = companyRepo.findByEmail(getCompanyEmail()).get();
+			for (Waybill w : company.getWaybills())
+			{
+				if (w.getId() == waybillID)
+				{
+					waybill = w;
+					break;
+				}
+			}
+		}
+		else
+		{
+			waybill = waybillRepo.findById(waybillID).orElse(null);
+		}
 	    
 	    if (waybill != null)
 	    {
@@ -119,5 +145,16 @@ public class EditWaybillGUI extends VerticalLayout implements BeforeEnterObserve
 	    	comboTrainStationOdb.setValue(waybill.getDest_station_id());
 			    
 	    }
+	}
+	
+	private String getCompanyEmail()
+	{
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken))
+		{
+			CompanyDetails company = (CompanyDetails) authentication.getPrincipal();
+			return company.getUsername();
+		}
+		return "";
 	}
 }
