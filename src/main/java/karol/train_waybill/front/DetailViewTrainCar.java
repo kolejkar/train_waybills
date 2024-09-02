@@ -17,7 +17,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
 import karol.train_waybill.database.TrainCar;
+import karol.train_waybill.database.TransportStatus;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainCarRepository;
 import karol.train_waybill.repository.WaybillRepository;
 
@@ -27,20 +29,26 @@ public class DetailViewTrainCar extends VerticalLayout implements BeforeEnterObs
 
 	private String trainID;
 	
+	private Boolean carStatus;
+	
 	Grid<TrainCar> grid;
 	TextField textCarNumber;
 	
 	Button find;
 	
-	Waybill trainCar;
+	Button changeStatus;
+	
+	private Waybill trainCar;
+	
+	private TransportStatus waybillStatus;
 	
 	@Autowired
 	WaybillRepository waybillRepo;
 	
 	@Autowired
 	TrainCarRepository trainCarRepo;
-	
-	DetailViewTrainCar()
+		
+	DetailViewTrainCar(CompanyRepository companyRepo)
 	{
 		Label info = new Label("Wyszukiwarka wagonów kolejowych:");
 		
@@ -55,6 +63,7 @@ public class DetailViewTrainCar extends VerticalLayout implements BeforeEnterObs
 		});
 				
 		add(info, textCarNumber, find, grid);
+		
 	}
 	
 	@Override
@@ -66,34 +75,69 @@ public class DetailViewTrainCar extends VerticalLayout implements BeforeEnterObs
         
 	        if (trainCarRepo.findById(trainID) != null)
 	        {
-	        	grid.setItems(trainCarRepo.findById(trainID).get());
+	        	grid.setItems(trainCarRepo.findById(trainID).get());	        	
+	        	grid.removeColumnByKey("waybills");
 	        	
 	        	trainCar = null;
 	        	for (Waybill waybill : waybillRepo.findAll())
 	        	{
 	        		if (waybill.getWagon().getCar_number().equals(trainID))
 	        		{
-	        		trainCar = waybill;
+	        			trainCar = waybill;
 	        		}
 	        	}
 	        
 	        	if (trainCar != null)
 	        	{		
-					grid.addColumn(p -> {
-						return trainCar.getSource_station_id().getFirma();
-					}).setHeader("Firma nadająca");	
-					grid.addColumn(p -> {
-						return trainCar.getDest_station_id().getId();
-					}).setHeader("Kod stacja docelowej");
-					grid.addColumn(p -> {
-						return trainCar.getDest_station_id().getNazwa_stacji();
-					}).setHeader("Stacja docelowa");	
-					grid.addColumn(p -> {
-						return trainCar.getDest_station_id().getFirma();
-					}).setHeader("Firma odbierająca");	
-					grid.addColumn(p -> {
-						return trainCar.getLadunek();
-					}).setHeader("Ladunek wagonu");	
+	        		waybillStatus = trainCar.getStatus();
+	        		carStatus = trainCar.getWagon().getEmpty();
+	        		
+	        		if (waybillStatus == TransportStatus.InProgress && carStatus == false)
+	        		{
+						grid.addColumn(p -> {
+							return trainCar.getSource_station_id().getFirma();
+						}).setHeader("Firma nadająca");	
+						grid.addColumn(p -> {
+							return trainCar.getDest_station_id().getId();
+						}).setHeader("Kod stacja docelowej");
+						grid.addColumn(p -> {
+							return trainCar.getDest_station_id().getNazwa_stacji();
+						}).setHeader("Stacja docelowa");	
+						grid.addColumn(p -> {
+							return trainCar.getDest_station_id().getFirma();
+						}).setHeader("Firma odbierająca");	
+						grid.addColumn(p -> {
+							return trainCar.getLadunek();
+						}).setHeader("Ladunek wagonu");	
+	        		}
+	        		else
+        			if (waybillStatus == TransportStatus.InProgress && carStatus == true)
+	        		{
+						grid.addColumn(p -> {
+							return trainCar.getSource_station_id().getFirma();
+						}).setHeader("Firma odbierająca");	
+						grid.addColumn(p -> {
+							return trainCar.getSource_station_id().getId();
+						}).setHeader("Kod stacja docelowej");
+						grid.addColumn(p -> {
+							return trainCar.getSource_station_id().getNazwa_stacji();
+						}).setHeader("Stacja docelowa");	
+	        		}
+        			else
+    				if (waybillStatus == TransportStatus.Delivered)
+	        		{
+						grid.addColumn(p -> {
+							return trainCar.getDest_station_id().getFirma();
+						}).setHeader("Firma nadająca");
+	        		}
+	        		
+	        		CarOperations();
+	        	}
+	        	else
+	        	{
+	        		grid.addColumn(p -> {
+						return "Na stanie";
+					}).setHeader("Status");	
 	        	}
 	        }
 		}
@@ -102,4 +146,56 @@ public class DetailViewTrainCar extends VerticalLayout implements BeforeEnterObs
 		}
 	}
 
+	private void CarOperations()
+	{
+		if (waybillStatus == TransportStatus.InProgress && carStatus == false)
+		{
+			changeStatus = new Button("Rozładuj wagon na bocznicy");
+			
+			changeStatus.addClickListener(clickEvent -> {
+				
+				trainCar.setStatus(TransportStatus.Delivered);				
+				TrainCar car = trainCar.getWagon();
+				car.setEmpty(true);
+				
+				trainCarRepo.save(car);			
+				waybillRepo.save(trainCar);				
+				    
+				Notification notification = Notification.show("Wagon został rozładowany na bocznicy!");
+			});
+			
+			add(changeStatus);
+		}
+		else
+		if (waybillStatus == TransportStatus.InProgress && carStatus == true)
+		{
+			changeStatus = new Button("Załaduj wagon na bocznicy");
+			
+			changeStatus.addClickListener(clickEvent -> {
+								
+				TrainCar car = trainCar.getWagon();
+				car.setEmpty(false);
+				
+				trainCarRepo.save(car);
+				//waybillRepo.save(trainCar);				
+				    
+				Notification notification = Notification.show("Wagon został zładowany na bocznicy!");
+			});
+			
+			add(changeStatus);
+		}
+		if (waybillStatus == TransportStatus.Delivered)
+		{
+			changeStatus = new Button("Zwolnij wagon");
+			
+			changeStatus.addClickListener(clickEvent -> {
+									
+				waybillRepo.deleteById(trainCar.getId());				
+				    
+				Notification notification = Notification.show("Wagon został zwolniony i czeka na nowe zamówienie!");
+				});
+			
+			add(changeStatus);
+		}
+	}
 }

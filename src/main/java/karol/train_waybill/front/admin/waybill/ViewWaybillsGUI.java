@@ -1,4 +1,4 @@
-package karol.train_waybill.front;
+package karol.train_waybill.front.admin.waybill;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.selection.SingleSelect;
 import com.vaadin.flow.router.Route;
 
+import karol.train_waybill.database.Company;
 import karol.train_waybill.database.Waybill;
 import karol.train_waybill.repository.WaybillRepository;
 
@@ -58,6 +59,14 @@ public class ViewWaybillsGUI extends VerticalLayout {
 					//grid.getSelectedRow().first();
 			waybillRepo.deleteById(waybill.getId());
 		});
+		
+		Button detail = new Button("Detail >>");
+		
+		detail.addClickListener(clickEvent -> {
+			Waybill waybill = waybillSelect.getValue();
+					//grid.getSelectedRow().first();
+			UI.getCurrent().getPage().setLocation("/waybill/detail/" + waybill.getId());
+		});
 				
 		
 		Button add = new Button("Add waybill");
@@ -66,6 +75,6 @@ public class ViewWaybillsGUI extends VerticalLayout {
 			UI.getCurrent().getPage().setLocation("/waybill/add");
 		});
 		
-		add(info, add, edit, delete, grid);
+		add(info, add, edit, delete, detail, grid);
 	}
 }

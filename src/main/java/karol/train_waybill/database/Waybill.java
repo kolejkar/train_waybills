@@ -1,7 +1,9 @@
 package karol.train_waybill.database;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,14 @@ import javax.persistence.OneToOne;
 @Entity
 public class Waybill {
 	
+	public TransportStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TransportStatus status) {
+		this.status = status;
+	}
+
 	public Company getCompany() {
 		return company;
 	}
@@ -29,19 +39,19 @@ public class Waybill {
 	}
 
 	public TrainStation getDest_station_id() {
-		return dest_station_id;
+		return dest_station;
 	}
 
 	public void setDest_station_id(TrainStation dest_station_id) {
-		this.dest_station_id = dest_station_id;
+		this.dest_station = dest_station_id;
 	}
 
 	public TrainStation getSource_station_id() {
-		return source_station_id;
+		return source_station;
 	}
 
 	public void setSource_station_id(TrainStation source_station_id) {
-		this.source_station_id = source_station_id;
+		this.source_station = source_station_id;
 	}
 
 	public String getLadunek() {
@@ -81,11 +91,13 @@ public class Waybill {
 	@Column(name="waybill_id")
 	private Integer id;
 	
-	@OneToOne
-	private TrainStation dest_station_id;
+	@ManyToOne
+	@JoinColumn(name="dest_station_id")
+	private TrainStation dest_station;
 	
-	@OneToOne
-	private TrainStation source_station_id;
+	@ManyToOne
+	@JoinColumn(name="source_station_id")
+	private TrainStation source_station;
 	
 	private String ladunek;
 	
@@ -93,10 +105,13 @@ public class Waybill {
 	
 	private String trasa;
 	
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "car_number")
 	private TrainCar wagon;
 	
 	@ManyToOne
 	@JoinColumn(name="company_id")
 	private Company company;
+	
+	private TransportStatus status;
 }

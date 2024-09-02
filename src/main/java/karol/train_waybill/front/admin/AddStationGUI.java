@@ -1,4 +1,4 @@
-package karol.train_waybill.front;
+package karol.train_waybill.front.admin;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;

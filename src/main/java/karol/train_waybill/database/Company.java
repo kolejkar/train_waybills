@@ -100,7 +100,7 @@ public class Company {
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> role = new HashSet();
 	
-	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"company"})
 	private Set<Waybill> waybills = new HashSet();
 }

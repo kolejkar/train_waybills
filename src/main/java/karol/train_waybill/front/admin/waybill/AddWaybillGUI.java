@@ -1,4 +1,4 @@
-package karol.train_waybill.front;
+package karol.train_waybill.front.admin.waybill;
 
 import java.util.List;
 import java.util.Set;
@@ -23,6 +23,7 @@ import karol.train_waybill.UserDetails.CompanyDetails;
 import karol.train_waybill.database.Company;
 import karol.train_waybill.database.TrainCar;
 import karol.train_waybill.database.TrainStation;
+import karol.train_waybill.database.TransportStatus;
 import karol.train_waybill.database.Waybill;
 import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainCarRepository;
@@ -87,28 +88,25 @@ public class AddWaybillGUI extends VerticalLayout  implements BeforeEnterObserve
 		
 		buttonRejestracja.addClickListener(clickEvent -> {
 			
-			List<TrainCar> trainCars = trainCarRepo.findAll();
-			
-			Waybill waybill = new Waybill();
-			waybill.setLadunek(textLadunek.getValue());
-			waybill.setUwagi(textUwagi.getValue());
-			waybill.setWagon(trainCars.stream().filter(c -> 
-					textCar.getValue().equals(c.getCar_number())).findAny().orElse(null));
-			
-			waybill.setSource_station_id(comboTrainStationNad.getValue());
-			waybill.setDest_station_id(comboTrainStationOdb.getValue());
-			
-			if(getCompanyEmail().length() > 0)
+			if (CheckTrainCar(textCar.getValue()) == true)
 			{
-				Company company = companyRepo.findByEmail(getCompanyEmail()).get();
-				waybill.setCompany(company);
-				waybillRepo.save(waybill);
-			    
-			    Notification notification = Notification.show("List przewozowy dodany!");
-			    UI.getCurrent().getPage().setLocation("/company/view");
+				Notification notification = Notification.show("Podany wagon jest zajęty! Podaj inny wagon.");
 			}
 			else
 			{
+				List<TrainCar> trainCars = trainCarRepo.findAll();
+			
+				Waybill waybill = new Waybill();
+				waybill.setLadunek(textLadunek.getValue());
+				waybill.setUwagi(textUwagi.getValue());			
+				waybill.setWagon(trainCars.stream().filter(c -> 
+				textCar.getValue().equals(c.getCar_number())).findAny().orElse(null));
+				
+				waybill.setSource_station_id(comboTrainStationNad.getValue());
+				waybill.setDest_station_id(comboTrainStationOdb.getValue());
+				
+				waybill.setStatus(TransportStatus.Report);
+				
 				waybillRepo.save(waybill);
 						    
 			    Notification notification = Notification.show("List przewozowy dodany!");
@@ -117,14 +115,26 @@ public class AddWaybillGUI extends VerticalLayout  implements BeforeEnterObserve
 		});
 	}
 	
-	private String getCompanyEmail()
+	private Boolean CheckTrainCar(String carNumber)
 	{
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken))
+		List<TrainCar> trainCars = trainCarRepo.findAll();
+		
+		for (TrainCar car : trainCars)
 		{
-			CompanyDetails company = (CompanyDetails) authentication.getPrincipal();
-			return company.getUsername();
+			if (car.getCar_number().equals(carNumber) && car.getEmpty() == true)
+			{
+				List<Waybill> waybills = waybillRepo.findAll();
+				
+				for (Waybill w : waybills)
+				{
+					if (w.getWagon() == car)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
 		}
-		return "";
+		return true;
 	}
 }

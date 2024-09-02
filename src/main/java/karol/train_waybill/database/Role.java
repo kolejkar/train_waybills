@@ -35,7 +35,7 @@ public class Role {
 	public void setName(ERole name) {
 		this.name = name;
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "role_id")

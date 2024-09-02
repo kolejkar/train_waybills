@@ -1,4 +1,4 @@
-package karol.train_waybill.front;
+package karol.train_waybill.front.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

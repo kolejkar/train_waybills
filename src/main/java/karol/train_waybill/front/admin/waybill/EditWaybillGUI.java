@@ -1,4 +1,4 @@
-package karol.train_waybill.front;
+package karol.train_waybill.front.admin.waybill;
 
 import java.util.List;
 
@@ -117,23 +117,7 @@ public class EditWaybillGUI extends VerticalLayout implements BeforeEnterObserve
 	    }
 		
 		Waybill waybill = null;
-		
-		if(getCompanyEmail().length() > 0)
-		{
-			Company company = companyRepo.findByEmail(getCompanyEmail()).get();
-			for (Waybill w : company.getWaybills())
-			{
-				if (w.getId() == waybillID)
-				{
-					waybill = w;
-					break;
-				}
-			}
-		}
-		else
-		{
-			waybill = waybillRepo.findById(waybillID).orElse(null);
-		}
+		waybill = waybillRepo.findById(waybillID).orElse(null);
 	    
 	    if (waybill != null)
 	    {
@@ -145,16 +129,5 @@ public class EditWaybillGUI extends VerticalLayout implements BeforeEnterObserve
 	    	comboTrainStationOdb.setValue(waybill.getDest_station_id());
 			    
 	    }
-	}
-	
-	private String getCompanyEmail()
-	{
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken))
-		{
-			CompanyDetails company = (CompanyDetails) authentication.getPrincipal();
-			return company.getUsername();
-		}
-		return "";
 	}
 }

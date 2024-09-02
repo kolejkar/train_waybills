@@ -1,4 +1,4 @@
-package karol.train_waybill.front;
+package karol.train_waybill.front.admin;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -21,6 +21,7 @@ public class ViewTrainCar extends VerticalLayout {
 		
 		Grid<TrainCar> grid= new Grid<TrainCar>(TrainCar.class);
 		grid.setItems(trainCarRepo.findAll());
+		grid.removeColumnByKey("waybills");
 		
 		SingleSelect<Grid<TrainCar>, TrainCar> carSelect =
 		        grid.asSingleSelect();
