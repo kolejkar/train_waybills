@@ -27,17 +27,20 @@ import karol.train_waybill.database.Company;
 import karol.train_waybill.database.TrainStation;
 import karol.train_waybill.database.TransportStatus;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.front.MenuGUI;
 import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.WaybillRepository;
 
 @Route("company/view")
 public class CompanyView extends VerticalLayout implements BeforeEnterObserver {
 	
-	Grid<Waybill> grid;
+	MenuGUI menu;
 	
+	Label info;
+	Grid<Waybill> grid;	
 	Button edit;
-	
 	Button delete;
+	Button add;
 	
 	@Autowired
 	private CompanyRepository companyRepo;
@@ -46,8 +49,8 @@ public class CompanyView extends VerticalLayout implements BeforeEnterObserver {
 	private WaybillRepository waybillRepo;
 	
 	public CompanyView()
-	{
-		Label info = new Label("Listy przewozowe:");		
+	{ 		
+		info = new Label("Listy przewozowe:");		
 		
 		grid= new Grid<Waybill>(Waybill.class);
 						
@@ -55,17 +58,17 @@ public class CompanyView extends VerticalLayout implements BeforeEnterObserver {
 				
 		delete = new Button("Delete");				
 		
-		Button add = new Button("Add waybill");
+		add = new Button("Add waybill");
 		
 		add.addClickListener(clickEvent -> {
 			UI.getCurrent().getPage().setLocation("/company/waybill/add");
 		});
-		
-		add(info, add, edit, delete, grid);
 	}
 	
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
+		
+		menu = new MenuGUI(companyRepo);
 		
 		Company company = companyRepo.findByEmail(getCompanyEmail()).get();
 		
@@ -120,6 +123,9 @@ public class CompanyView extends VerticalLayout implements BeforeEnterObserver {
 				Notification notification = Notification.show("Usunięcie listu przewozowego nie jest możliwe!");
 			}
 		});
+		
+		add(menu);
+		add(info, add, edit, delete, grid);
 	}
 	
 	private String getCompanyEmail()

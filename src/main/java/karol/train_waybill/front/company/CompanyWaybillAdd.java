@@ -24,6 +24,7 @@ import karol.train_waybill.database.TrainCar;
 import karol.train_waybill.database.TrainStation;
 import karol.train_waybill.database.TransportStatus;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.front.MenuGUI;
 import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainCarRepository;
 import karol.train_waybill.repository.TrainStationRepository;
@@ -31,6 +32,15 @@ import karol.train_waybill.repository.WaybillRepository;
 
 @Route("company/waybill/add")
 public class CompanyWaybillAdd extends VerticalLayout  implements BeforeEnterObserver{
+	
+	MenuGUI menu;
+	
+	Label info;
+	Label info1;
+	Label info2;
+	Label info3;
+	Label labelCar;
+	Label labelUwagi;
 	
 	Button buttonRejestracja;
 	
@@ -52,38 +62,36 @@ public class CompanyWaybillAdd extends VerticalLayout  implements BeforeEnterObs
 	
 	public CompanyWaybillAdd(TrainCarRepository trainCarRepo, TrainStationRepository trainStationRepo)
 	{
-		Label info = new Label("Tworzenie listu przewozowego:");
+		info = new Label("Tworzenie listu przewozowego:");
 		
-		Label info1 = new Label("Wprowadz ladunek do transportu:");
+		info1 = new Label("Wprowadz ladunek do transportu:");
 		textLadunek = new TextField("ladunek:");
 		
-		Label labelCar = new Label("Wprowadz kod wagonu:");
+		labelCar = new Label("Wprowadz kod wagonu:");
 		textCar = new TextField("Wagon:");
 		
-		Label labelUwagi = new Label("Informacje dodatkowe:");
+		labelUwagi = new Label("Informacje dodatkowe:");
 		textUwagi = new TextField("Uwagi:");
 
-		Label info2 = new Label("Firma nadająca:");
+		info2 = new Label("Firma nadająca:");
 		
 		comboTrainStationNad = new ComboBox<TrainStation>("Uzywane bocznice kolejowe");
 		comboTrainStationNad.setItems(trainStationRepo.findAll());
 		comboTrainStationNad.setItemLabelGenerator(TrainStation::getFirma);
 		
-		Label info3 = new Label("Firma odbierajaca:");
+		info3 = new Label("Firma odbierajaca:");
 		
 		comboTrainStationOdb = new ComboBox<TrainStation>("Uzywane bocznice kolejowe");
 		comboTrainStationOdb.setItems(trainStationRepo.findAll());
 		comboTrainStationOdb.setItemLabelGenerator(TrainStation::getFirma);
 		
 		buttonRejestracja = new Button("Dodaj");
-		
-		add(info, info1, textLadunek, labelCar, textCar, labelUwagi, textUwagi, info2, comboTrainStationNad,
-				info3, comboTrainStationOdb);
-		add(buttonRejestracja);
 	}
 
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
+		
+		menu = new MenuGUI(companyRepo);
 		
 		buttonRejestracja.addClickListener(clickEvent -> {
 			
@@ -114,6 +122,11 @@ public class CompanyWaybillAdd extends VerticalLayout  implements BeforeEnterObs
 				}
 			}
 		});
+		
+		add(menu);
+		add(info, info1, textLadunek, labelCar, textCar, labelUwagi, textUwagi, info2, comboTrainStationNad,
+				info3, comboTrainStationOdb);
+		add(buttonRejestracja);
 	}
 	
 	private TrainCar GetTrainCar(String carNumber)
