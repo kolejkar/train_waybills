@@ -50,6 +50,9 @@ public class DetailViewTrainCar extends VerticalLayout implements BeforeEnterObs
 		
 	DetailViewTrainCar(CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Wyszukiwarka wagonów kolejowych:");
 		
 		textCarNumber = new TextField("Numer wagonu: ");

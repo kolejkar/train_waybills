@@ -40,12 +40,17 @@ public class ViewUsers extends VerticalLayout implements BeforeEnterObserver {
 		Label info = new Label("Company view:");		
 		
 		grid= new Grid<Company>(Company.class);
+		
+		Button addEmployee = new Button("Dodawanie pracownika");		
+		addEmployee.addClickListener(clickEvent -> {
+			UI.getCurrent().getPage().setLocation("/users/addEmployee");
+		});
 						
 		edit = new Button("Edit");
 				
 		delete = new Button("Delete");				
 				
-		add(info, edit, delete, grid);
+		add(info, addEmployee, edit, delete, grid);
 	}
 	
 	@Override
