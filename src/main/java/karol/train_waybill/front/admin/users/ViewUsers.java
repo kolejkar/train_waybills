@@ -20,6 +20,7 @@ import com.vaadin.flow.router.Route;
 import karol.train_waybill.UserDetails.CompanyDetails;
 import karol.train_waybill.database.Company;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.front.MenuGUI;
 import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.WaybillRepository;
 
@@ -35,8 +36,11 @@ public class ViewUsers extends VerticalLayout implements BeforeEnterObserver {
 	@Autowired
 	private CompanyRepository companyRepo;
 		
-	public ViewUsers()
+	public ViewUsers(CompanyRepository companyR)
 	{
+		MenuGUI menu = new MenuGUI(companyR);
+		add(menu);
+		
 		Label info = new Label("Company view:");		
 		
 		grid= new Grid<Company>(Company.class);

@@ -12,6 +12,8 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 
 import karol.train_waybill.database.TrainStation;
+import karol.train_waybill.front.MenuGUI;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainStationRepository;
 
 @Route("station/edit/:stationID")
@@ -27,8 +29,11 @@ public class EditStationGUI extends VerticalLayout implements BeforeEnterObserve
 	@Autowired
 	TrainStationRepository stationRepo;
 	
-	EditStationGUI()
+	EditStationGUI(CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Dodawanie bocznicy kolejowej:");
 		
 		Label info1 = new Label("Nazwa firmy obsługującej bocznicę:");

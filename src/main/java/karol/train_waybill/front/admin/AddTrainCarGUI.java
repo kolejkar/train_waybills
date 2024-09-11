@@ -8,13 +8,18 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 import karol.train_waybill.database.TrainCar;
+import karol.train_waybill.front.MenuGUI;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainCarRepository;
 
 @Route("traincar/add")
 public class AddTrainCarGUI extends VerticalLayout {
 
-	public AddTrainCarGUI(TrainCarRepository trainCarRepo)
+	public AddTrainCarGUI(TrainCarRepository trainCarRepo, CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Dodawanie wagonu kolejowego:");
 		
 		Label info1 = new Label("Numer wagonu:");

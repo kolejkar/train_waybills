@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep.LabelsPosition;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -28,6 +29,8 @@ public class RegistrationForm extends FormLayout {
 
 
 	public RegistrationForm() {
+		
+		
        title = new H3("Company register");
 	   name = new TextField("Company name");
 	   email = new EmailField("Company email");
@@ -41,7 +44,10 @@ public class RegistrationForm extends FormLayout {
 	
 	   register = new Button("Register company");
 	
-	   add(title, name, email, password, passwordConfirm, errorMessageField, register);
+	   add(title, name, email);
+	   add(password, passwordConfirm, errorMessageField, register);
+	   
+	   setResponsiveSteps(new ResponsiveStep("0", 1));
 	}
 
 

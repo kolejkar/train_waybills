@@ -19,7 +19,7 @@ import com.vaadin.flow.router.Route;
 import karol.train_waybill.database.Company;
 import karol.train_waybill.database.ERole;
 import karol.train_waybill.database.Role;
-
+import karol.train_waybill.front.MenuGUI;
 import karol.train_waybill.repository.CompanyRepository;
 
 @Route("/users/edit/:CompanyID")
@@ -38,8 +38,11 @@ public class EditUser extends VerticalLayout implements BeforeEnterObserver {
 	@Autowired
 	private CompanyRepository companyRepo;
 	
-	public EditUser()
+	public EditUser(CompanyRepository companyR)
 	{
+		MenuGUI menu = new MenuGUI(companyR);
+		add(menu);
+		
 		Label info = new Label("Edycja firmy:");
 		
 		Label labelEmail = new Label("Wprowadz email:");

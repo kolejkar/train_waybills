@@ -37,6 +37,7 @@ public class AddEmployee extends VerticalLayout{
 	{
 		MenuGUI menu = new MenuGUI(companyR);
 		add(menu);
+		
 		Label info = new Label("Dodanie pracownika:");
 		
 		Label labelEmail = new Label("Wprowadz email:");

@@ -48,8 +48,11 @@ public class CompanyView extends VerticalLayout implements BeforeEnterObserver {
 	@Autowired
 	private WaybillRepository waybillRepo;
 	
-	public CompanyView()
-	{ 		
+	public CompanyView(CompanyRepository companyR)
+	{
+		MenuGUI menu = new MenuGUI(companyR);
+		add(menu);
+		
 		info = new Label("Listy przewozowe:");		
 		
 		grid= new Grid<Waybill>(Waybill.class);

@@ -60,8 +60,11 @@ public class CompanyWaybillAdd extends VerticalLayout  implements BeforeEnterObs
 	@Autowired
 	private CompanyRepository companyRepo;
 	
-	public CompanyWaybillAdd(TrainCarRepository trainCarRepo, TrainStationRepository trainStationRepo)
+	public CompanyWaybillAdd(TrainCarRepository trainCarRepo, TrainStationRepository trainStationRepo, CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		info = new Label("Tworzenie listu przewozowego:");
 		
 		info1 = new Label("Wprowadz ladunek do transportu:");

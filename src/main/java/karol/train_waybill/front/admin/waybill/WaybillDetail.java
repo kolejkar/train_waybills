@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -15,6 +16,8 @@ import com.vaadin.flow.router.Route;
 import karol.train_waybill.database.TrainCar;
 import karol.train_waybill.database.TransportStatus;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.front.MenuGUI;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.WaybillRepository;
 
 @Route("/waybill/detail/:WaybillID")
@@ -26,16 +29,20 @@ public class WaybillDetail extends VerticalLayout implements BeforeEnterObserver
 	
 	private Waybill list;
 	
-	private Label detail;
+	private Paragraph detail;
 	
 	@Autowired
 	WaybillRepository waybillRepo;
 	
-	WaybillDetail()
+	WaybillDetail(CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Informacje o liście przewozowym:");
 		
-		detail = new Label("*");
+		detail = new Paragraph("*");
+		detail.getStyle().set("white-space", "pre-line");
 		
 		add(info, detail);
 	}

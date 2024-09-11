@@ -8,13 +8,18 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 import karol.train_waybill.database.TrainStation;
+import karol.train_waybill.front.MenuGUI;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainStationRepository;
 
 @Route("station/add")
 public class AddStationGUI extends VerticalLayout {
 	
-	public AddStationGUI(TrainStationRepository stationRepo)
+	public AddStationGUI(TrainStationRepository stationRepo, CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Dodawanie bocznicy kolejowej:");
 		
 		Label info1 = new Label("Nazwa firmy obsługującej bocznicę:");

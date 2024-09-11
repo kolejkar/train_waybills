@@ -14,6 +14,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 
 import karol.train_waybill.UserDetails.CompanyDetails;
 import karol.train_waybill.database.Company;
@@ -27,13 +28,17 @@ public class MenuGUI extends HorizontalLayout implements AfterNavigationObserver
 	
 	public MenuGUI(CompanyRepository companyRepo) 
 	{
+		this.setJustifyContentMode(JustifyContentMode.CENTER);
+		this.setWidthFull();
+		
 		this.companyRepo = companyRepo;
-		setJustifyContentMode(JustifyContentMode.END);
 		
 		mainMenu = new Button("Menu główne");		
 		mainMenu.addClickListener(clickEvent -> {
 			UI.getCurrent().getPage().setLocation("/");
 		});
+		
+		add(mainMenu);
 	}
 	
 	private String getCompanyEmail()
@@ -60,7 +65,8 @@ public class MenuGUI extends HorizontalLayout implements AfterNavigationObserver
 				UI.getCurrent().getPage().setLocation("logout");
 			});
 			
-			add(mainMenu, user, logout);
+			add(user, logout);
+			expand(user);
 		}
 		else
 		{
@@ -70,8 +76,9 @@ public class MenuGUI extends HorizontalLayout implements AfterNavigationObserver
 				UI.getCurrent().getPage().setLocation("login");
 			});
 			
-			add(mainMenu, login);
+			Label info = new Label("");			
+			add(info, login);
+			expand(info);
 		}
-		
 	}
 }

@@ -12,14 +12,19 @@ import com.vaadin.flow.router.Route;
 
 import karol.train_waybill.database.Company;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.front.MenuGUI;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.WaybillRepository;
 
 @Route("waybill/view")
 public class ViewWaybillsGUI extends VerticalLayout {
 	
 	@Autowired
-	public ViewWaybillsGUI(WaybillRepository waybillRepo)
+	public ViewWaybillsGUI(WaybillRepository waybillRepo, CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Listy przewozowe:");		
 		
 		Grid<Waybill> grid= new Grid<Waybill>(Waybill.class);

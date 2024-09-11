@@ -64,8 +64,11 @@ public class CompanyWaybillEdit extends VerticalLayout implements BeforeEnterObs
 	@Autowired
 	private CompanyRepository companyRepo;
 	
-	public CompanyWaybillEdit()
+	public CompanyWaybillEdit(CompanyRepository companyR)
 	{
+		MenuGUI menu = new MenuGUI(companyR);
+		add(menu);
+		
 		info = new Label("Edycja listu przewozowego:");
 		
 		info1 = new Label("Wprowadz ladunek do transportu:");

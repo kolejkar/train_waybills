@@ -14,6 +14,8 @@ import com.vaadin.flow.router.Route;
 
 import karol.train_waybill.database.TrainCar;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.front.MenuGUI;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainCarRepository;
 
 @Route("traincar/edit/:carID")
@@ -29,8 +31,11 @@ public class EditTrainCarGUI extends VerticalLayout implements BeforeEnterObserv
 	@Autowired
 	TrainCarRepository trainCarRepo;
 	
-	EditTrainCarGUI()
+	EditTrainCarGUI(CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Dodawanie wagonu kolejowego:");
 		
 		Label info1 = new Label("Numer wagonu:");

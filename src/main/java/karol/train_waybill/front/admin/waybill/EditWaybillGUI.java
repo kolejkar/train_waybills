@@ -22,6 +22,7 @@ import karol.train_waybill.database.Company;
 import karol.train_waybill.database.TrainCar;
 import karol.train_waybill.database.TrainStation;
 import karol.train_waybill.database.Waybill;
+import karol.train_waybill.front.MenuGUI;
 import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainCarRepository;
 import karol.train_waybill.repository.TrainStationRepository;
@@ -51,8 +52,11 @@ public class EditWaybillGUI extends VerticalLayout implements BeforeEnterObserve
 	@Autowired
 	private CompanyRepository companyRepo;
 	
-	public EditWaybillGUI()
+	public EditWaybillGUI(CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Edycja listu przewozowego:");
 		
 		Label info1 = new Label("Wprowadz ladunek do transportu:");

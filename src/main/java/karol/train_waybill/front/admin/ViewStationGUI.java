@@ -9,13 +9,18 @@ import com.vaadin.flow.data.selection.SingleSelect;
 import com.vaadin.flow.router.Route;
 
 import karol.train_waybill.database.TrainStation;
+import karol.train_waybill.front.MenuGUI;
+import karol.train_waybill.repository.CompanyRepository;
 import karol.train_waybill.repository.TrainStationRepository;
 
 @Route("station/view")
 public class ViewStationGUI extends VerticalLayout {
 
-	public ViewStationGUI(TrainStationRepository stationRepo)
+	public ViewStationGUI(TrainStationRepository stationRepo, CompanyRepository companyRepo)
 	{
+		MenuGUI menu = new MenuGUI(companyRepo);
+		add(menu);
+		
 		Label info = new Label("Projects lists:");		
 		
 		Grid<TrainStation> grid= new Grid<TrainStation>(TrainStation.class);
