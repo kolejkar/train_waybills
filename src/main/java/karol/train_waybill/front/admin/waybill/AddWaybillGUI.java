@@ -129,6 +129,8 @@ public class AddWaybillGUI extends VerticalLayout  implements BeforeEnterObserve
 				{
 					if (w.getWagon() == car)
 					{
+						if (w.getStatus() == TransportStatus.Archive)
+							return false;
 						return true;
 					}
 				}

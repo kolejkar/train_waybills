@@ -6,5 +6,6 @@ public enum TransportStatus {
 	Accept,
 	InProgress,
 	Delivered,
-	Reject
+	Reject,
+	Archive
 }
