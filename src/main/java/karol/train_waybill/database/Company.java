@@ -103,4 +103,8 @@ public class Company {
 	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"company"})
 	private Set<Waybill> waybills = new HashSet();
+
+	//Dodać historię zamówień
+
+	//Dodać listę na produkty
 }

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 import karol.train_waybill.UserDetails.UserDetailsServiceImpl;
 import karol.train_waybill.database.ERole;
@@ -39,19 +40,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    
 	
 	@Override
-	    protected void configure(HttpSecurity http) throws Exception { 
-		  http
-		  	.authenticationProvider(authenticationProvider())
-	        .cors().and()
-	        .csrf().disable()
-	        .authorizeRequests()
-	        .antMatchers("/company/**").hasRole("COMPANY")
-	        .antMatchers("/traincar/view/detail/**").hasRole("RAILWAY")
-	        .antMatchers("/station/**","/waybill/**","/traincar/**","/users/**","/admin").hasRole("ADMIN")
-	        .antMatchers("**").permitAll()
-	        .and()
-	        .formLogin();
-	    }
+	protected void configure(HttpSecurity http) throws Exception { 
+		http
+		.authenticationProvider(authenticationProvider())
+		.cors().and()
+		.csrf().disable()
+		.authorizeRequests()
+		.antMatchers("/company/**").hasRole("COMPANY")
+		.antMatchers("/traincar/view/detail/**").hasRole("RAILWAY")
+		.antMatchers("/station/**","/waybill/**","/traincar/**","/users/**","/admin").hasRole("ADMIN")
+		.antMatchers("/InvalidSession","/SessionLimit").permitAll()
+		.antMatchers("**").permitAll()
+		.and()
+		.formLogin()
+		.and()
+		.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+		.maximumSessions(1).expiredUrl("/SessionLimit").and()
+  		.invalidSessionUrl("/InvalidSession");
+	}
 	  
 	  /**
 	   * Allows access to static resources, bypassing Spring security.

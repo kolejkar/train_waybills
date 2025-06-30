@@ -71,7 +71,6 @@ public class DetailViewTrainCar extends VerticalLayout implements BeforeEnterObs
 	
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
-		// TODO Auto-generated method stub
 		try
 		{
 			trainID = event.getRouteParameters().get("trainID").get();

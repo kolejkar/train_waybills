@@ -105,7 +105,8 @@ public class Waybill {
 	
 	private String trasa;
 	
-	@ManyToOne
+	//Dodać więcej wagonów 
+	@OneToOne
 	@JoinColumn(name = "car_number")
 	private TrainCar wagon;
 	

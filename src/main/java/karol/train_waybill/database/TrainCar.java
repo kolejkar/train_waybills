@@ -23,12 +23,12 @@ public class TrainCar {
 		this.carrier = carrier;
 	}
 
-	public Set<Waybill> getWaybills() {
-		return waybills;
+	public Waybill getWaybill() {
+		return waybill;
 	}
 
-	public void setWaybills(Set<Waybill> waybills) {
-		this.waybills = waybills;
+	public void setWaybill(Waybill waybill) {
+		this.waybill = waybill;
 	}
 
 	public Boolean getEmpty() {
@@ -62,10 +62,6 @@ public class TrainCar {
 	private String type;
 	
 	private Boolean Empty;
-	
-	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties({"company"})
-	private Set<Waybill> waybills = new HashSet();
-	
+
 	private String carrier;
 }
