@@ -23,14 +23,6 @@ public class TrainCar {
 		this.carrier = carrier;
 	}
 
-	public Waybill getWaybill() {
-		return waybill;
-	}
-
-	public void setWaybill(Waybill waybill) {
-		this.waybill = waybill;
-	}
-
 	public Boolean getEmpty() {
 		return Empty;
 	}

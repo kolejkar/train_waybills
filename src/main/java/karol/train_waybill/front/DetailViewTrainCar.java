@@ -191,10 +191,11 @@ public class DetailViewTrainCar extends VerticalLayout implements BeforeEnterObs
 			changeStatus = new Button("Zwolnij wagon");
 			
 			changeStatus.addClickListener(clickEvent -> {
-					
+				
 				trainCar.setStatus(TransportStatus.Archive);
-				waybillRepo.save(trainCar);
-				//waybillRepo.deleteById(trainCar.getId());
+				//dodawanie do historii
+
+				waybillRepo.deleteById(trainCar.getId());
 				
 				    
 				Notification notification = Notification.show("Wagon został zwolniony i czeka na nowe zamówienie!");
