@@ -15,8 +15,8 @@ import karol.train_waybill.database.Role;
 import karol.train_waybill.repository.CompanyRepository;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
+@Service
 public class InitService {
 
 	@Autowired
