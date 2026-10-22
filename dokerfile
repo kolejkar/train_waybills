@@ -1,11 +1,12 @@
-FROM maven:3.9-eclipse-temurin-11 AS build
+Etap 1: Budowanie aplikacji (Maven + Node.js)
+FROM maven:3.8.6-eclipse-temurin-11 AS build
 WORKDIR /app
 COPY . .
-RUN mvn clean package -DskipTests
+RUN ./mvnw clean package -Pproduction
 
-# Etap uruchomieniowy (lekki obraz tylko z Jądrem Javy i skompilowanym JAR-em)
-FROM eclipse-temurin:11-jre-jammy
+# Etap 2: Uruchomienie aplikacji
+FROM eclipse-temurin:11-jre
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/train_waybill-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
