@@ -26,7 +26,7 @@ public class ViewTrainCar extends VerticalLayout {
 		
 		Grid<TrainCar> grid= new Grid<TrainCar>(TrainCar.class);
 		grid.setItems(trainCarRepo.findAll());
-		grid.removeColumnByKey("waybills");
+		//grid.removeColumnByKey("waybills");
 		
 		SingleSelect<Grid<TrainCar>, TrainCar> carSelect =
 		        grid.asSingleSelect();

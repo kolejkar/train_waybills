@@ -11,6 +11,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.selection.SingleSelect;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -69,12 +70,22 @@ public class ViewUsers extends VerticalLayout implements BeforeEnterObserver {
 		
 		edit.addClickListener(clickEvent -> {
 			Company firma = companySelect.getValue();
+			if (firma.getEmail().compareTo("admin@cargo.pl") == 0)
+			{
+				Notification note = Notification.show("Nie można zmienić danych admina!!!");
+				return;
+			}
 					//grid.getSelectedRow().first();
 			UI.getCurrent().getPage().setLocation("/users/edit/" + firma.getId());
 		});
 				
 		delete.addClickListener(clickEvent -> {
 			Company firma = companySelect.getValue();
+			if (firma.getEmail().compareTo("admin@cargo.pl") == 0)
+			{
+				Notification note = Notification.show("Nie można usunąć admina!!!");
+				return;
+			}
 					//grid.getSelectedRow().first();
 			companyRepo.deleteById(firma.getId());
 		});

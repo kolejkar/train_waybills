@@ -70,6 +70,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.16.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "babel-loader": "8.2.2",
     "chokidar": "^3.5.0",
     "compression-webpack-plugin": "4.0.1",
@@ -178,6 +179,6 @@
       "webpack-dev-server": "3.11.0",
       "webpack-merge": "4.2.2"
     },
-    "hash": "af1445d96cfe05468885e92b4abce988884783fccdcdfbda9aa9169f04aa2643"
+    "hash": "780b7b06d11a43526f849bd2113eb8d3b41a416389b48c4d76fbd25a81371330"
   }
 }
