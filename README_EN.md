@@ -37,6 +37,10 @@
 <div><img src="serwis kolejowy/wyszukiwarka wagonow1.png"><div>Details about the wagon along with status</div></div>
 <div><img src="serwis kolejowy/wyszukiwarka wagonow2.png"><div>Showing the wagon order</div></div>
 
+<h3>Demo:</h3>
+<a href="https://train-waybill-621809592073.europe-central2.run.app">Run demo</a>
+<p> Data for login as administrator:<br>Name: admin<br>Password: admin</p>
+
 <h3>Requirements:</h3>
 <p>
   Maven <br>
