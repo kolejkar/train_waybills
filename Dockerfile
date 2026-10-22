@@ -1,4 +1,4 @@
-Etap 1: Budowanie aplikacji (Maven + Node.js)
+#Etap 1: Budowanie aplikacji (Maven + Node.js)
 FROM maven:3.8.6-eclipse-temurin-11 AS build
 WORKDIR /app
 COPY . .
