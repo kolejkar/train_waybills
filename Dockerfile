@@ -2,6 +2,10 @@
 FROM maven:3.8.6-eclipse-temurin-11 AS build
 WORKDIR /app
 COPY . .
+
+# Doinstalowanie brakującego plugina Babela, którego wymaga Vaadin 14 w trybie produkcji
+RUN npm install --save-dev @babel/plugin-proposal-object-rest-spread
+
 RUN mvn clean package -Pproduction
 
 # Etap 2: Uruchomienie aplikacji
