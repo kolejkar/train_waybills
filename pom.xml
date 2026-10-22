@@ -14,7 +14,7 @@
 	<name>train_waybill</name>
 	<description>Elektroniczne etykiety wagonowe</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<vaadin.version>14.8.3</vaadin.version>
     	<vaadin.productionMode>true</vaadin.productionMode>
 	</properties>
