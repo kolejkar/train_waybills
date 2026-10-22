@@ -40,7 +40,7 @@
 
 <h3>Demo:</h3>
 <a href="https://train-waybill-621809592073.europe-central2.run.app">Uruchom demo</a>
-<p> Dane do logowania na administratora:<br>Nazwa: admin@cargo.pl<br>Hasło: admin@01</p>
+<p> Dane do logowania na administratora:<br>Nazwa: admin@cargo.pl<br>Hasło: skonfigurowana jako zmienna środowiskowa applikacji</p>
 
 <h3>Requirements:</h3>
 <p>

@@ -39,7 +39,7 @@
 
 <h3>Demo:</h3>
 <a href="https://train-waybill-621809592073.europe-central2.run.app">Run demo</a>
-<p> Data for login as administrator:<br>Name: admin@cargo.pl<br>Password: admin@01</p>
+<p> Data for login as administrator:<br>Name: admin@cargo.pl<br>Password: configure as application environment variable</p>
 
 <h3>Requirements:</h3>
 <p>
