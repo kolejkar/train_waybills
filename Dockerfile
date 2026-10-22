@@ -2,7 +2,7 @@
 FROM maven:3.8.6-eclipse-temurin-11 AS build
 WORKDIR /app
 COPY . .
-RUN mvnw clean package -Pproduction
+RUN mvn clean package -Pproduction
 
 # Etap 2: Uruchomienie aplikacji
 FROM eclipse-temurin:11-jre
