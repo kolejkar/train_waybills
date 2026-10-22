@@ -13,11 +13,15 @@ import karol.train_waybill.database.Company;
 import karol.train_waybill.database.ERole;
 import karol.train_waybill.database.Role;
 import karol.train_waybill.repository.CompanyRepository;
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
+//@Slf4j
 @Service
 public class InitService {
+
+private static final Logger log = LoggerFactory.getLogger(InitService.class);
 
 	@Autowired
 	CompanyRepository companyRepo;
