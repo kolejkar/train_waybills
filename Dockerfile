@@ -1,5 +1,10 @@
 #Etap 1: Budowanie aplikacji (Maven + Node.js)
 FROM maven:3.8.6-eclipse-temurin-11 AS build
+
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
 WORKDIR /app
 COPY . .
 
