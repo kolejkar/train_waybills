@@ -44,10 +44,20 @@ public class MenuGUI extends HorizontalLayout implements AfterNavigationObserver
 	private String getCompanyEmail()
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken))
-		{
-			CompanyDetails company = (CompanyDetails) authentication.getPrincipal();
-			return company.getUsername();
+		// Zabezpieczenie przed null, brak autoryzacji lub stanem anonimowym
+		if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+			return "";
+		}
+
+		try {
+			if (!(authentication instanceof AnonymousAuthenticationToken))
+			{
+				CompanyDetails company = (CompanyDetails) authentication.getPrincipal();
+				return company.getUsername();
+			}
+		}
+		catch(Exception e) {
+			 return "";
 		}
 		return "";
 	}

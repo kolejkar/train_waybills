@@ -17,6 +17,11 @@ public class InvalidSession extends VerticalLayout {
 			UI.getCurrent().getPage().setLocation("login");
 		});
 
-        add(info, login);
+        Button menu = new Button("Powrót do strony głównej");
+        menu.addClickListener(clickEvent -> {
+			UI.getCurrent().getPage().setLocation("/");
+		});
+
+        add(info, login, menu);
     }
 }
