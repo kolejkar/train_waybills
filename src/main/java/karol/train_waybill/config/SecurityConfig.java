@@ -58,6 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 		.maximumSessions(1).expiredUrl("/SessionLimit").and()
   		.invalidSessionUrl("/InvalidSession");
+
+		http.logout()
+        .logoutUrl("/logout")
+        .logoutSuccessUrl("/") // <-- Po wylogowaniu od razu przekieruj na stronę główną (co odświeży sesję)
+        .permitAll();
 	}
 	  
 	  /**

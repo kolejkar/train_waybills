@@ -23,6 +23,18 @@ public class MainGUI extends VerticalLayout implements BeforeEnterObserver {
 	
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		// Jeśli użytkownik jest niezalogowany lub anonimowy
+		/*if (authentication == null || !authentication.isAuthenticated() || 
+			authentication.getPrincipal().equals("anonymousUser")) {
+			
+			// Wymuś pełne odświeżenie/przekierowanie na stronę główną lub logowania
+			// (jeśli nie jesteś już na stronie głównej)
+			UI.getCurrent().getPage().setLocation("/"); 
+			return; 
+		}*/
+
 		CheckRoles();		
 	}
 		
